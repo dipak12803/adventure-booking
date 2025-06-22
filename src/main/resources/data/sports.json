@@ -1,0 +1,44 @@
+[
+  {
+    "name": "River Rafting",
+    "description": "Exciting water adventure with rapids",
+    "availableSlots": 20,
+    "pricePerPerson": 1200,
+    "imageName": "riverrafting.jpg"
+  },
+  {
+    "name": "Paragliding",
+    "description": "Soar high above the mountains",
+    "availableSlots": 20,
+    "pricePerPerson": 2500,
+    "imageName": "paragliding.jpg"
+  },
+  {
+    "name": "Mountain Biking",
+    "description": "Ride through rugged mountain trails",
+    "availableSlots": 20,
+    "pricePerPerson": 800,
+    "imageName": "biking.jpg"
+  },
+  {
+    "name": "Bungee Jumping",
+    "description": "Leap from extreme heights with a cord",
+    "availableSlots": 20,
+    "pricePerPerson": 1800,
+    "imageName": "bungee.jpg"
+  },
+  {
+    "name": "Scuba Diving",
+    "description": "Explore underwater marine life",
+    "availableSlots": 20,
+    "pricePerPerson": 3000,
+    "imageName": "scuba.jpg"
+  },
+  {
+    "name": "Skydiving",
+    "description": "Experience the ultimate freefall thrill",
+    "availableSlots": 20,
+    "pricePerPerson": 3500,
+    "imageName": "skydiving.jpg"
+  }
+]
