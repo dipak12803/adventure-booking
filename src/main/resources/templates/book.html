@@ -6,44 +6,62 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f9f9f9;
+            background-color: #f0f8ff;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         .booking-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 60px auto;
         }
 
         .booking-card {
-            background-color: #fff;
-            border: none;
+            background-color: #ffffffdd;
             border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
             padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .booking-title {
-            font-weight: 600;
-            font-size: 26px;
+            font-weight: bold;
+            font-size: 28px;
             color: #007bff;
             margin-bottom: 30px;
             text-align: center;
-        }
-
-        .form-control, .form-select {
-            border-radius: 8px;
-            height: 45px;
         }
 
         .form-label {
             font-weight: 500;
         }
 
-        .btn-book {
+        .form-control, .form-select {
+            border-radius: 8px;
+            height: 44px;
+        }
+
+        .btn-confirm {
             width: 100%;
             height: 45px;
             font-weight: 600;
             border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background-color: #0056b3;
+        }
+
+        .side-animation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .side-animation {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -51,20 +69,34 @@
 
 <div class="container booking-container">
     <div class="booking-card">
+
+        <!-- Left Side Lottie Animation -->
+        <div class="side-animation">
+            <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+            <dotlottie-player
+                    src="https://lottie.host/77380627-ddd8-47ce-a218-44c2f42c9c2d/yk9FtvdJ9A.lottie"
+                    background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay>
+            </dotlottie-player>
+        </div>
+
         <h2 class="booking-title" th:text="'Book: ' + ${sport.name}">Book Adventure</h2>
 
+        <!-- Error message -->
+        <div th:if="${slotError}" class="alert alert-danger text-center mb-3" th:text="${slotError}"></div>
+
+        <!-- Booking Form -->
         <form th:action="@{/book}" method="post">
-            <input type="hidden" name="sportId" th:value="${sport.id}"/>
+            <input type="hidden" name="sportId" th:value="${sport.id}" />
 
             <!-- Booking Date -->
             <div class="mb-3">
-                <label for="bookingDate" class="form-label">Booking Date</label>
-                <input type="date" class="form-control" id="bookingDate" name="bookingDate" required/>
+                <label class="form-label">Booking Date</label>
+                <input type="date" class="form-control" name="bookingDate" th:min="${today}" required>
             </div>
 
-            <!-- Slot Time -->
+            <!-- Time Slot -->
             <div class="mb-3">
-                <label for="slotTime" class="form-label">Select Time Slot</label>
+                <label class="form-label">Select Time Slot</label>
                 <select class="form-select" name="slotTime" required>
                     <option value="" disabled selected>-- Choose a Time Slot --</option>
                     <option th:each="slot : ${slots}" th:value="${slot.time}" th:text="${slot.time}"></option>
@@ -72,26 +104,19 @@
             </div>
 
             <!-- Number of People -->
-            <div class="mb-3">
-                <label for="numberOfPeople" class="form-label">Number of People</label>
-                <input type="number" class="form-control" name="numberOfPeople" min="1" required/>
+            <div class="mb-4">
+                <label class="form-label">Number of People</label>
+                <input type="number" class="form-control" name="numberOfPeople" min="1" required>
             </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary btn-book">
-                <i class="fas fa-check-circle me-2"></i>Confirm Booking
+            <!-- Confirm Button -->
+            <button type="submit" class="btn btn-confirm">
+                <i class="fas fa-check-circle me-2"></i> Confirm Booking
             </button>
         </form>
+
     </div>
 </div>
-
-<!-- JavaScript to disable past dates -->
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('bookingDate').setAttribute('min', today);
-    });
-</script>
 
 </body>
 </html>

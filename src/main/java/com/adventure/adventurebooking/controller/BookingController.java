@@ -1,5 +1,6 @@
 package com.adventure.adventurebooking.controller;
 
+import ch.qos.logback.core.model.Model;
 import com.adventure.adventurebooking.dto.BookingRequest;
 import com.adventure.adventurebooking.entity.*;
 import com.adventure.adventurebooking.repository.*;
@@ -71,6 +72,8 @@ public class BookingController {
                 })
                 .orElse(ResponseEntity.status(403).body("Unauthorized or booking not found"));
     }
+
+
     // Get current user's bookings
     @GetMapping
     public ResponseEntity<List<Booking>> getUserBookings(@AuthenticationPrincipal User user) {

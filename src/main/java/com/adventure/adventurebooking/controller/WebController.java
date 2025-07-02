@@ -65,26 +65,37 @@ public class WebController {
 
     // Booking form page
     @GetMapping("/book/{id}")
-    public String showBookingForm(@PathVariable Long id, Model model) {
+    public String showBookingForm(@PathVariable Long id,
+                                  @RequestParam(value = "error", required = false) String error,
+                                  Model model) {
         Sport sport = sportRepository.findById(id).orElse(null);
         if (sport == null) return "redirect:/sports";
 
         List<Slot> slots = slotRepository.findBySport(sport);
 
         model.addAttribute("sport", sport);
-        model.addAttribute("slots", slots); // pass slot list to frontend
+        model.addAttribute("slots", slots);
+        model.addAttribute("today", java.time.LocalDate.now());  // ✅ Add this
+        if ("slots".equals(error)) {
+            model.addAttribute("slotError", "Not enough slots available for your booking.");
+        }
+
         return "book";
     }
 
-    // Handle booking submission
     @PostMapping("/book")
     public String confirmBooking(@ModelAttribute BookingRequest request,
-                                 @AuthenticationPrincipal org.springframework.security.core.userdetails.User springUser) {
-        User user = userService.getUserByEmail(springUser.getUsername()); // ✅ fix here
-
+                                 @AuthenticationPrincipal org.springframework.security.core.userdetails.User springUser,
+                                 Model model) {
+        User user = userService.getUserByEmail(springUser.getUsername());
         Sport sport = sportRepository.findById(request.getSportId()).orElse(null);
-        if (sport == null || sport.getAvailableSlots() < request.getNumberOfPeople()) {
+
+        if (sport == null) {
             return "redirect:/sports";
+        }
+
+        if (sport.getAvailableSlots() < request.getNumberOfPeople()) {
+            return "redirect:/book/" + request.getSportId() + "?error=slots";
         }
 
         sport.setAvailableSlots(sport.getAvailableSlots() - request.getNumberOfPeople());
@@ -101,8 +112,46 @@ public class WebController {
                 .build();
 
         bookingRepository.save(booking);
-        return "redirect:/my-bookings";
+
+        // Show animated confirmation page
+        model.addAttribute("booking", booking);
+        return "success";
     }
+
+
+
+    // Handle booking submission
+//    @PostMapping("/book")
+//    public String confirmBooking(@ModelAttribute BookingRequest request,
+//                                 @AuthenticationPrincipal org.springframework.security.core.userdetails.User springUser) {
+//        User user = userService.getUserByEmail(springUser.getUsername());
+//
+//        Sport sport = sportRepository.findById(request.getSportId()).orElse(null);
+//        if (sport == null) {
+//            return "redirect:/sports";
+//        }
+//
+//        if (sport.getAvailableSlots() < request.getNumberOfPeople()) {
+//            return "redirect:/book/" + request.getSportId() + "?error=slots";
+//        }
+//
+//        sport.setAvailableSlots(sport.getAvailableSlots() - request.getNumberOfPeople());
+//        sportRepository.save(sport);
+//
+//        Booking booking = Booking.builder()
+//                .user(user)
+//                .sport(sport)
+//                .bookingDate(request.getBookingDate())
+//                .slotTime(request.getSlotTime())
+//                .numberOfPeople(request.getNumberOfPeople())
+//                .totalPrice(request.getNumberOfPeople() * sport.getPricePerPerson())
+//                .status("CONFIRMED")
+//                .build();
+//
+//        bookingRepository.save(booking);
+//        return "redirect:/my-bookings";
+//    }
+
 
 
     // View logged-in user's bookings

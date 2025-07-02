@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking Confirmed</title>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background: #f8fcff;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .btn-view {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .confirmation-text {
+            color: #333;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<dotlottie-player src="https://lottie.host/70196d17-7bc2-401d-b7ca-22679c9cb535/cLXuFjjY7R.lottie"
+                  background="transparent" speed="1" style="width: 320px; height: 320px" autoplay></dotlottie-player>
+
+<h2 class="text-success">Booking Confirmed!</h2>
+<p>Your adventure is locked in. Get ready!</p>
+<p class="confirmation-text">Our team will get in touch with you for further assist.</p>
+
+<a href="/my-bookings" class="btn btn-primary btn-view">View My Bookings</a>
+
+</body>
+</html>
