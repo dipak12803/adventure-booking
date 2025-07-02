@@ -17,9 +17,10 @@
             text-align: center;
         }
 
-        .btn-view {
-            margin-top: 20px;
+        .btn-view, .btn-download {
+            margin-top: 15px;
             font-weight: bold;
+            width: 220px;
         }
 
         .confirmation-text {
@@ -38,7 +39,15 @@
 <p>Your adventure is locked in. Get ready!</p>
 <p class="confirmation-text">Our team will get in touch with you for further assist.</p>
 
-<a href="/my-bookings" class="btn btn-primary btn-view">View My Bookings</a>
+<!-- Download PDF Button -->
+<a th:href="@{'/download-booking/' + ${booking.id}}" class="btn btn-success btn-download">
+    <i class="fas fa-download me-2"></i>Download Booking PDF
+</a>
+
+<!-- View Bookings -->
+<a href="/my-bookings" class="btn btn-primary btn-view">
+    <i class="fas fa-calendar-check me-2"></i>View My Bookings
+</a>
 
 </body>
 </html>
