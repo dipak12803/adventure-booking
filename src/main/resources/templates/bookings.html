@@ -2,9 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Bookings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome (for icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Lottie Player -->
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
 
     <style>
         .card:hover {
@@ -31,6 +41,12 @@
         .btn-back-home {
             margin-top: 20px;
             margin-bottom: -10px;
+        }
+
+        /* Fix for SweetAlert2 popup scroll */
+        .swal2-popup {
+            max-height: 90vh !important;
+            overflow: hidden !important;
         }
     </style>
 </head>
@@ -88,10 +104,7 @@
             confirmButtonText: "Yes, cancel it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                // Submit the form
                 form.submit();
-
-                // Show popup after redirect using localStorage flag
                 localStorage.setItem('showCancelPopup', 'true');
             }
         });
@@ -107,14 +120,21 @@
             Swal.fire({
                 title: "Booking Cancelled",
                 html: `
-                  <dotlottie-player src="https://lottie.host/4ecb2c17-e90a-4871-b8cc-42222e0a189d/bpqpmGvymD.lottie"
-                      background="transparent" speed="1" style="width: 280px; height: 280px;" autoplay>
-                  </dotlottie-player>
+                    <div class="d-flex justify-content-center">
+                        <dotlottie-player
+                            src="https://lottie.host/4ecb2c17-e90a-4871-b8cc-42222e0a189d/bpqpmGvymD.lottie"
+                            background="transparent"
+                            speed="1"
+                            style="width: 250px; height: 250px;"
+                            autoplay>
+                        </dotlottie-player>
+                    </div>
                 `,
                 showConfirmButton: false,
                 timer: 3000,
-                width: 360,
-                padding: '1.5em'
+                width: 300,
+                padding: '1.5em',
+                heightAuto: false
             });
         }
     });
